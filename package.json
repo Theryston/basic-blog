@@ -1,0 +1,17 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "this is a blog created in node.js and MySQL which has an administration page and it can only be accessed by administrators.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/Theryston/blog.git",
+  "author": "Theryston Santos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Theryston/blog/issues"
+  },
+  "homepage": "https://github.com/Theryston/blog#readme",
+  "private": null
+}

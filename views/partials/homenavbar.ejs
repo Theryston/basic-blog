@@ -3,9 +3,14 @@
     <a class="navbar-brand" href="/">
     	Blog
     </a>
-    <ul class="navbar-nav mr-auto">
+    <ul style="display:flex;" class="navbar-nav mr-auto">
         <li class="nav-item">
             <a  class="nav-link" href="/">Home</a>
         </li>
+	<% categories.forEach((category) => { %>
+		<li class="nav-item">
+             		 <a  class="nav-link" href="/category/<%=category.slug%>"><%=category.title%></a>
+        	</li>
+	<%})%>
     </ul>
 </nav>

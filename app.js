@@ -28,13 +28,18 @@ connection
 			console.log(error)
 		})
 
-//app.use('/', CategoriesController)
+app.use('/', CategoriesController)
 app.use('/', ArticlesController)
 
+
+//routers
 app.get('/', (req, res) => {
-	Article.findAll().then((articles) => {
+	Article.findAll({order: [['id', 'desc']]}).then((articles) => {
+		Category.findAll().then((categories) => {
 		res.render('index', {
-			articles: articles
+			articles: articles,
+			categories: categories
+		})
 		})
 	})
 })
@@ -47,8 +52,11 @@ app.get('/:slug', (req, res) => {
 		}
 	}).then(article => {
 		if (article) {
-			res.render('article', {
-				article: article
+			Category.findAll().then((categories) => {
+				res.render('article', {
+					article: article,
+					categories: categories
+				})
 			})
 		} else {
 			res.redirect('/')
@@ -58,6 +66,32 @@ app.get('/:slug', (req, res) => {
 	})
 })
 
+app.get('/category/:slug', (req, res) => {
+	var slug = req.params.slug
+
+	Category.findOne({ 
+		where: {
+			slug: slug
+		},
+		include: [{model: Article}]
+	}).then((category) => {
+		if (category) {	
+			Category.findAll().then((categories) => {
+				res.render('index', {
+					articles: category.articles,
+					categories: categories
+				})
+			})
+		}else {
+			res.redirect('/')
+		}
+	})
+
+})
+
+
+
+//listen
 app.listen(2020, () => {
 	console.log('rodando!')
 })

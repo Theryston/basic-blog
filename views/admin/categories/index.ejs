@@ -18,17 +18,17 @@
 			<tbody>
 				<% categories.forEach(category => { %>
 					<tr>
-						<th><%= category.id %></th>
-						<th><%= category.title %></th>
-						<th><%= category.slug %></th>
-						<th>
+						<td><%= category.id %></th>
+						<td class="title"><%= category.title %></th>
+						<td><%= category.slug %></th>
+						<td>
 							<a href="/admin/categories/edit/<%=category.id%>" class="btn btn-warning">Editar</a>
 							
 							<form method="post" action="/categories/delete" style="display:inline;" onsubmit="confirmDelect(event, this)">
 								<input type="hidden" name="id" value="<%=category.id%>">
 								<button class="btn btn-danger">Deletar</button>
 							</form>
-						</th>
+						</td>
 					</tr>
 				<% }) %>
 			</tbody>

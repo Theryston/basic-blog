@@ -18,6 +18,8 @@ app.use(bodyParser.json())
 //static
 app.use(express.static('public'))
 
+app.use(express.json())
+
 //Databasee
 connection
 	.authenticate()

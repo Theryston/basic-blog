@@ -1,0 +1,42 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/navbar') %>
+<body>
+	<div class="container mt-4">
+
+		<div class="jumbotron">
+			<h1 class="display-4">Bem-vindo a administração!</h1>
+			<p class="lead">
+				Olá! aqui você pode editar diversas coisas do blog
+			</p>
+			<hr class="my-4">
+		</div>
+		<h1>Comfira:</h1>
+		<div class="card">
+			<div class="card-header">
+				<h2>Artigos</h2>
+			</div>
+			<div class="card-body">
+				<p>edite, adicione ou exclua um artigo!</p>
+			<a href="/admin/articles"><button class="btn btn-outline-primary btn-block">acessar</button></a>
+			</div>
+		</div> <br>
+		<div class="card">
+			<div class="card-header">
+				<h2>Categorias</h2>
+			</div>
+			<div class="card-body">
+				<p>edite, adicione ou exclua uma categoria!</p>
+				<a href="/admin/categories"><button class="btn btn-outline-primary btn-block">acessar</button></a>
+			</div>
+		</div> <br>
+		<div class="card">
+			<div class="card-header">
+				<h2>Usuários</h2>
+			</div>
+			<div class="card-body">
+				<p>edite, adicione ou exclua um usuários!</p>
+				<a href="/admin/users"><button class="btn btn-outline-primary btn-block">acessar</button></a>
+			</div>
+		</div> <br>
+</body>
+<%- include ('../partials/footer') %>

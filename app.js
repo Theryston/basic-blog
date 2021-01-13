@@ -2,17 +2,31 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const connection = require('./database/database')
+const session = require('express-session')
 const Article = require('./articles/Article')
 const Category = require('./categories/Category')
+const User = require('./user/User')
+const adminAuth = require('./middlewares/adminauth')
 
 const CategoriesController = require('./categories/categoriesController')
 const ArticlesController = require('./articles/ArticlesController')
+const UserController = require('./user/UserController')
 
 //view engine
 app.set('view engine', 'ejs')
 
+//Sessions
+app.use(session({
+	secret: "jsjsjsjsjsjsnsjshsbdbxdhdn",
+	cookie: {
+		maxAge: 60*60*1000
+	}
+}))
+
 //bodyParser
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({
+	extended: false
+}))
 app.use(bodyParser.json())
 
 //static
@@ -22,28 +36,35 @@ app.use(express.json())
 
 //Databasee
 connection
-	.authenticate()
-		.then(() => {
-			console.log('Connected with database!')
-		})
-		.catch((error) => {
-			console.log(error)
-		})
+.authenticate()
+.then(() => {
+	console.log('Connected with database!')
+})
+.catch((error) => {
+	console.log(error)
+})
 
 app.use('/', CategoriesController)
 app.use('/', ArticlesController)
+app.use('/', UserController)
 
 
 //routers
 app.get('/', (req, res) => {
-	Article.findAll({order: [['id', 'desc']]}).then((articles) => {
+	Article.findAll({
+		order: [['id', 'desc']], limit: 4
+	}).then((articles) => {
 		Category.findAll().then((categories) => {
-		res.render('index', {
-			articles: articles,
-			categories: categories
-		})
+			res.render('index', {
+				articles: articles,
+				categories: categories
+			})
 		})
 	})
+})
+
+app.get('/admin', adminAuth, (req, res) => {
+	res.render('admin/index')
 })
 
 app.get('/:slug', (req, res) => {
@@ -71,26 +92,27 @@ app.get('/:slug', (req, res) => {
 app.get('/category/:slug', (req, res) => {
 	var slug = req.params.slug
 
-	Category.findOne({ 
+	Category.findOne({
 		where: {
 			slug: slug
 		},
-		include: [{model: Article}]
+		include: [{
+			model: Article
+		}]
 	}).then((category) => {
-		if (category) {	
+		if (category) {
 			Category.findAll().then((categories) => {
 				res.render('index', {
 					articles: category.articles,
 					categories: categories
 				})
 			})
-		}else {
+		} else {
 			res.redirect('/')
 		}
 	})
 
 })
-
 
 
 //listen

@@ -1,0 +1,24 @@
+<%- include ('../../partials/header') %>
+<%- include ('../../partials/navbar') %>
+<body>
+	<div class="container">
+		<hr>
+		<div class="card">
+			
+			<div class="card-header">
+				<h2>Edição de usuário:</h2>
+			</div>
+			
+			<div class="card-body">
+				<form action="/user/update" method="post">
+					<input type="hidden" name="id" value="<%=user.id%>">
+					<input type="text" name="email" placeholder="defina o email do usuário" class="form-control" value="<%=user.email%>"><br>
+					<input type="password" name="password" placeholder="defina a nova senha do usuário" class="form-control"><br>
+					<button type="submit" class="btn btn-primary">Editar!</button>
+			</form>
+			</div>
+			
+		</div>
+	</div>
+</body>
+<%- include ('../../partials/footer') %>

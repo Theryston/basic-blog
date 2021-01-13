@@ -1,0 +1,27 @@
+<%- include ('../../partials/header') %>
+<body>
+	<div class="container">
+		<hr />
+		<div class="card mt-5">
+			<div class="card-header">
+				<h2>Fazer login:</h2>
+			</div>
+			<div class="card-body">
+				<form action="/authenticate" method="post">
+					<input type="email" name="email" placeholder="seu e-mail" class="form-control"> <br>
+					<input type="password" name="password" placeholder="********" class="form-control"><br>
+					<input type="hidden" name="path" id="path">
+					<button class="btn btn-primary btn-block" type="submit">logar!</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script>
+		var path = document.getElementById('path')
+		var URL = document.URL
+		var URLC = URL.replace('http://', '').replace('https://', '')
+		var router = URLC.replace(URLC.substring(0,URLC.indexOf('/')), '')
+		path.value = router
+	</script>
+</body>
+<%- include ('../../partials/footer') %>

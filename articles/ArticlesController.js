@@ -3,8 +3,9 @@ const router = express.Router();
 const Category = require('../categories/Category')
 const Article = require('./Article')
 const slugify = require('slugify')
+const adminAuth = require('../middlewares/adminauth')
 
-router.get('/admin/articles', (req, res) => {
+router.get('/admin/articles', adminAuth, (req, res) => {
 	Article.findAll({
 		include: [{
 			model: Category
@@ -16,7 +17,7 @@ router.get('/admin/articles', (req, res) => {
 	})
 })
 
-router.get('/admin/articles/new', (req, res) => {
+router.get('/admin/articles/new', adminAuth, (req, res) => {
 	Category.findAll().then((categories) => {
 		res.render('admin/articles/new', {
 			categories: categories
@@ -24,7 +25,7 @@ router.get('/admin/articles/new', (req, res) => {
 	})
 })
 
-router.get('/admin/article/edit/:id', (req, res) => {
+router.get('/admin/article/edit/:id', adminAuth, (req, res) => {
 	const id = req.params.id
 
 	Category.findAll().then((categories) => {
@@ -107,16 +108,17 @@ router.post('/articles/delete', (req, res) => {
 router.get('/articles/page/:num', (req, res) => {
 	var page = req.params.num
 	var offset = 0
-	
+
 	if (isNaN(page) || page == 1) {
 		offset = 0
 	} else {
 		offset = (parseInt(page) - 1) * 4;
 	}
-	
+
 	Article.findAndCountAll({
 		limit: 4,
-		offset: offset
+		offset: offset,
+		order: [['id', 'desc']]
 	}).then(articles => {
 
 		var next;
@@ -127,12 +129,18 @@ router.get('/articles/page/:num', (req, res) => {
 		}
 
 		var result = {
+			page: parseInt(page),
 			next: next,
 			articles: articles,
 			offset: offset
 		}
 
-		res.json(result)
+		Category.findAll().then(categories => {
+			res.render('admin/articles/page', {
+				result: result,
+				categories: categories
+			})
+		})
 	})
 
 })
